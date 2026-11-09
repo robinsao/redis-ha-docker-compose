@@ -1,0 +1,52 @@
+x-redis-common: &redis-common
+  network_mode: host
+  image: redis:8.8.0-alpine3.23
+
+services:
+  redis-1:
+    <<: *redis-common
+    container_name: "redis-1"
+    volumes:
+      - "./7001-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+    depends_on:
+      - redis-2
+      - redis-3
+      - redis-4
+      - redis-5
+      - redis-6
+
+  redis-2:
+    <<: *redis-common
+    container_name: "redis-2"
+    volumes:
+      - "./7002-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
+  redis-3:
+    <<: *redis-common
+    container_name: "redis-3"
+    volumes:
+      - "./7003-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
+  redis-4:
+    <<: *redis-common
+    container_name: "redis-4"
+    volumes:
+      - "./7004-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
+  redis-5:
+    <<: *redis-common
+    container_name: "redis-5"
+    volumes:
+      - "./7005-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
+  redis-6:
+    <<: *redis-common
+    container_name: "redis-6"
+    volumes:
+      - "./7006-conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
