@@ -1,0 +1,31 @@
+x-common-redis: &redis-common
+  image: redis:8.8.0-alpine3.23
+
+services:
+  redis-1:
+    <<: *redis-common
+    container_name: redis-1
+    ports:
+      - 6379:6379
+      - 26379:26379
+    volumes:
+      - ./sentinel1:/usr/local/etc/redis
+    command: redis-server  --requirepass redis_pwd  --masterauth redis_pwd   --replica-announce-ip 192.168.88.123   --replica-announce-port  6379 --enable-debug-command yes
+  redis-2:
+    <<: *redis-common
+    container_name: redis-2
+    ports:
+      - 6380:6379
+      - 26380:26379
+    volumes:
+      - ./sentinel2:/usr/local/etc/redis
+    command: redis-server --slaveof redis-1 6379 --masterauth redis_pwd  --requirepass redis_pwd  --replica-announce-ip 192.168.88.123  --replica-announce-port  6380 --enable-debug-command yes
+  redis-3:
+    <<: *redis-common
+    container_name: redis-3
+    ports:
+      - 6381:6379
+      - 26381:26379
+    volumes:
+      - ./sentinel3:/usr/local/etc/redis
+    command: redis-server --slaveof redis-1 6379 --masterauth redis_pwd --requirepass redis_pwd  --replica-announce-ip 192.168.88.123  --replica-announce-port  6381 --enable-debug-command yes

@@ -1,0 +1,3 @@
+*-conf
+sentinel[0-9]/
+**/venv
